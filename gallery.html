@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Art Gallery — 작품 리스트</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* ===== status window ===== */
+    .status-window {
+      background-color: #000000;
+      color: #ffffff;
+      border: 2px solid #ff3333;
+      border-radius: 10px;
+      text-align: center;
+      padding: 10px 14px;
+      margin: 16px auto;
+      max-width: 1100px;
+      box-shadow: 0 6px 24px rgba(0,0,0,.35);
+    }
+    .status-window h2 { margin: 6px 0 4px; text-transform: uppercase; }
+    .status-window hr { border: 0; border-top: 1px solid #444; margin: 8px 0 12px; }
+    .status-window h3, .status-window p { margin: 6px 0; }
+
+    /* ===== page base ===== */
+    :root{
+      --bg:#0b0b0b;
+      --text:#eaeaea;
+      --muted:#b9b9b9;
+      --card:#121418;
+      --border:#242833;
+      --accent:#ffd54a;
+    }
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height:1.6;
+    }
+
+    /* ===== header / title ===== */
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px 28px;
+    }
+    .page-title{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; margin: 10px 0 16px;
+    }
+    .page-title h1{ margin:0; font-size: clamp(20px, 3.2vw, 32px); }
+    .hint{ color: var(--muted); font-size:.95rem; }
+
+    /* ===== grid ===== */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:16px;
+    }
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    /* ===== card ===== */
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display:flex;
+      flex-direction: column;
+      transition: transform .15s ease, box-shadow .15s ease;
+      min-height: 280px; /* 적당한 높이 */
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(0,0,0,.35);
+    }
+
+    /* 이미지 자리 (비워둠) */
+    .thumb{
+      aspect-ratio: 4/3;            /* 이미지 자리 비율만 확보 */
+      background:
+        repeating-linear-gradient(45deg, #1c2028 0 10px, #171a20 10px 20px); /* placeholder 무늬 */
+      border-bottom: 1px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      color:#8a93a6; font-size:.9rem;
+    }
+    .thumb span{ opacity:.9 }
+
+    /* 내용 자리 (비워둠) */
+    .body{
+      padding: 14px 16px 18px;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .title-placeholder,
+    .text-placeholder{
+      border: 1px dashed #394153;
+      border-radius: 10px;
+      min-height: 18px;
+      background: rgba(255,255,255,0.02);
+    }
+    .title-placeholder{ height: 20px; }
+    .text-placeholder{ height: 48px; }
+
+    /* 카드 하단 작은 안내 */
+    .meta{
+      margin-top:auto;
+      display:flex; justify-content:space-between; align-items:center;
+      color: var(--muted);
+      font-size:.85rem;
+      padding-top:8px;
+      border-top: 1px dashed #2e3441;
+    }
+    .btn{
+      text-decoration:none;
+      color:#0b0b0b;
+      background: var(--accent);
+      border:1px solid #d6b63b;
+      padding:8px 12px;
+      border-radius:10px;
+      font-weight:700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- status window (항상 포함) -->
+  <div class="status-window">
+    <h2>status window</h2>
+    <hr>
+    <h3>age: , current state:</h3>
+    <p><b>mood: , energy: , focus: , background story:</b></p>
+  </div>
+
+  <div class="wrap">
+    <div class="page-title">
+      <h1>작품 리스트</h1>
+      <div class="hint">이미지/내용은 추후 채워질 예정입니다.</div>
+    </div>
+
+    <!-- 작품 카드 그리드 -->
+    <section class="grid" aria-label="작품 목록">
+      <!-- 카드 1 -->
+      <article class="card" aria-label="작품 카드">
+        <div class="thumb" aria-label="이미지 자리"><span>이미지 자리</span></div>
+        <div class="body">
+          <div class="title-placeholder" aria-label="제목 자리"></div>
+          <div class="text-placeholder" aria-label="설명 자리"></div>
+          <div class="meta">
+            <span>카테고리 / 연도</span>
+            <a href="#" class="btn" aria-label="상세 보기">상세 보기</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 카드 2 -->
+      <article class="card">
+        <div class="thumb"><span>이미지 자리</span></div>
+        <div class="body">
+          <div class="title-placeholder"></div>
+          <div class="text-placeholder"></div>
+          <div class="meta">
+            <span>카테고리 / 연도</span>
+            <a href="#" class="btn">상세 보기</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 카드 3 -->
+      <article class="card">
+        <div class="thumb"><span>이미지 자리</span></div>
+        <div class="body">
+          <div class="title-placeholder"></div>
+          <div class="text-placeholder"></div>
+          <div class="meta">
+            <span>카테고리 / 연도</span>
+            <a href="#" class="btn">상세 보기</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 필요만큼 카드 복제해서 사용 -->
+      <article class="card">
+        <div class="thumb"><span>이미지 자리</span></div>
+        <div class="body">
+          <div class="title-placeholder"></div>
+          <div class="text-placeholder"></div>
+          <div class="meta">
+            <span>카테고리 / 연도</span>
+            <a href="#" class="btn">상세 보기</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="thumb"><span>이미지 자리</span></div>
+        <div class="body">
+          <div class="title-placeholder"></div>
+          <div class="text-placeholder"></div>
+          <div class="meta">
+            <span>카테고리 / 연도</span>
+            <a href="#" class="btn">상세 보기</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="thumb"><span>이미지 자리</span></div>
+        <div class="body">
+          <div class="title-placeholder"></div>
+          <div class="text-placeholder"></div>
+          <div class="meta">
+            <span>카테고리 / 연도</span>
+            <a href="#" class="btn">상세 보기</a>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+
+</body>
+</html>

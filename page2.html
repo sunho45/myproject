@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>artgallery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- 외부 CSS를 사용한다면 아래 href에 파일명을 넣으세요. 예: href="style.css" -->
+  <!-- <link rel="stylesheet" href="style.css"> -->
+  <style>
+    :root{
+      --bg:#0b0b0b;
+      --text:#eaeaea;
+      --muted:#b9b9b9;
+      --primary:#4caf50;
+      --nav:#1f1f1f;
+      --card:#111318;
+      --cardBorder:#22252c;
+      --accent:#ffd54a;
+    }
+
+    /* 페이지 전체 */
+    html,body{height:100%}
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      margin: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: inherit; }
+
+    /* status window */
+    .status-window {
+      background-color: #000;
+      color: #fff;
+      border: 2px solid red;
+      border-radius: 10px;
+      text-align: center;
+      padding: 10px 14px;
+      margin: 16px auto;
+      max-width: 1024px;
+      box-shadow: 0 6px 24px rgba(0,0,0,.35);
+    }
+    .status-window h2 {
+      margin: 6px 0 4px;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+    .status-window hr {
+      border: 0;
+      border-top: 1px solid #444;
+      margin: 8px 0 12px;
+    }
+    .status-window h3, .status-window p { margin: 6px 0; }
+
+    /* 상단 네비게이션 */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: linear-gradient(180deg, var(--nav) 0%, #171717 100%);
+      border-bottom: 1px solid #242424;
+      backdrop-filter: blur(6px);
+    }
+    nav .nav-wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand{
+      font-weight: 800;
+      letter-spacing: .5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand .dot{
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 12px rgba(76,175,80,.8);
+    }
+
+    /* ol을 유지하되 reset 후 가로 메뉴로 */
+    nav ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+    nav ol li a {
+      display: inline-block;
+      padding: 8px 10px;
+      text-decoration: none;
+      color: var(--text);            /* 이전 코드의 검정 → 흰색으로 교정 */
+      font-weight: 700;
+      letter-spacing: .2px;
+      border-radius: 8px;
+      transition: transform .15s ease, background .15s ease, color .15s ease;
+    }
+    nav ol li a:hover {
+      background: #2a2a2a;
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    /* 히어로 섹션 */
+    .hero {
+      max-width: 1100px;
+      margin: 26px auto 18px;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 18px;
+    }
+    .hero-card {
+      background: radial-gradient(1200px 450px at -10% -20%, #1a1e26 0%, #0f1116 60%, #0b0b0b 100%);
+      border: 1px solid var(--cardBorder);
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(24px, 3.2vw, 42px);
+      line-height: 1.2;
+    }
+    .hero p.lead{
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+    .cta-row { display:flex; gap:10px; flex-wrap:wrap; }
+    .btn {
+      border: 1px solid #2e2e2e;
+      background: #141414;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); background:#1a1a1a; border-color:#3a3a3a; }
+    .btn.primary { background: var(--primary); border-color: var(--primary); color:#081108; }
+    .btn.primary:hover { filter: brightness(1.05); }
+
+    .hero-side {
+      background: linear-gradient(180deg, #10131a, #0b0d12);
+      border: 1px solid var(--cardBorder);
+      border-radius: 14px;
+      padding: 20px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+    .mini-card{
+      background: var(--card);
+      border: 1px solid var(--cardBorder);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .mini-card h4{ margin: 0 0 6px; }
+
+    /* 소개 카드 그리드 */
+    .grid {
+      max-width: 1100px;
+      margin: 8px auto 28px;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--cardBorder);
+      border-radius: 14px;
+      padding: 18px;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.35);
+    }
+    .card h3{ margin-top:0 }
+
+    /* 본문 section (요청 코드의 section도 유지) */
+    section.content {
+      max-width: 1100px;
+      margin: 0 auto 24px;
+      padding: 0 16px;
+    }
+    section.content .surface {
+      background: #0f1116;
+      border: 1px solid var(--cardBorder);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    /* 푸터 */
+    footer {
+      margin-top: 30px;
+      border-top: 1px solid #232323;
+      color: #9a9a9a;
+      text-align: center;
+      padding: 18px 16px 32px;
+    }
+
+    /* 반응형 */
+    @media (max-width: 900px){
+      .hero { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px){
+      nav .nav-wrap{ flex-direction: column; align-items: stretch; }
+      nav ol{ justify-content: center; flex-wrap: wrap; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- status window -->
+
+  <!-- 네비게이션 -->
+  <nav aria-label="주요 메뉴">
+    <div class="nav-wrap">
+      <div class="brand"><span class="dot"></span> artgallery</div>
+      <!-- 기존에 사용하시던 ol 유지 -->
+      <ol>
+        <li><a href="#">home</a></li>
+        <li><a href="#">service</a></li>
+        <li><a href="#">location</a></li>
+        <li><a href="#">concerning our art gallery</a></li>
+      </ol>
+    </div>
+  </nav>
+
+  <!-- 히어로 -->
+  <section class="hero">
+    <div class="hero-card">
+      <h1>welcome to our art gallery</h1>
+      <p class="lead">
+        현대 미술부터 조각, 설치 작업까지 — 감각을 깨우는 전시를 만나보세요.
+      </p>
+      <div class="cta-row">
+        <a href="#" class="btn primary">전시 보러가기</a>
+        <a href="#" class="btn">문의하기</a>
+      </div>
+    </div>
+    <aside class="hero-side">
+      <div class="mini-card">
+        <h4>운영 시간</h4>
+        <div>화–일 10:00 ~ 18:00 (월요일 휴관)</div>
+      </div>
+      <div class="mini-card">
+        <h4>위치</h4>
+        <div>서울 어딘가 123, artgallery</div>
+      </div>
+      <div class="mini-card">
+        <h4>공지</h4>
+        <div>9/30 ~ 10/15 리뉴얼 전시 진행</div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- 소개 카드 -->
+  <section class="grid" aria-label="갤러리 주요 안내">
+    <article class="card">
+      <h3>Curated Exhibitions</h3>
+      <p>국내외 큐레이터와 협업해 매 시즌 새로운 기획전을 선보입니다.</p>
+    </article>
+    <article class="card">
+      <h3>Artist Talks</h3>
+      <p>작가와 직접 만나는 토크 프로그램으로 작업의 맥락을 이해해 보세요.</p>
+    </article>
+    <article class="card">
+      <h3>Education</h3>
+      <p>어린이·성인 대상 워크숍과 도슨트 프로그램을 운영합니다.</p>
+    </article>
+  </section>
+
+  <!-- 기존 section도 유지 (내용은 자유 편집) -->
+  <section class="content">
+    <div class="surface">
+      <h2>about our space</h2>
+      <p>
+        우리의 전시 공간은 빛과 그림자의 대비를 강조한 블랙 톤의 미니멀 디자인으로 구성되어,
+        작품에 더욱 집중할 수 있도록 설계되었습니다.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <pre><code class="language-cpp">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout &lt;&lt; "Hello, Art Gallery!" &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+    &copy; 2025 artgallery. All rights reserved.
+  </footer>
+
+</body>
+</html>

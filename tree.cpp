@@ -1,141 +1,121 @@
 #include <iostream>
-#include "queue.h"
+#include <queue>
+
 using namespace std;
-class treenode{
+class node{
     public:
-        treenode *left;
-        treenode *right;
-        int num;
-        treenode(int num){
-            this->num=num;
-        }
+        int data;
+        node*left;
+        node*right;
+        node(int data):data(data),left(nullptr),right(nullptr){}
+
 
 
 
 };
+
+
+
 
 class tree{
     public:
-        treenode *root;
-        tree(){
-
-            root=nullptr;
-
+        node *root;
+        tree():root(nullptr){};
+        bool isempty(){
+            return root==nullptr;
         }
+        node* insertnode(node *newnode, node*root){
 
-        treenode* pushednode(treenode *root, int num){
-            treenode *newnode=new treenode(num); 
             if(root==nullptr){
-                return newnode;
+                return root;
             }
             else{
-                if(root->num>root->left->num){
-                    root=pushednode(root->left,num);
+
+                if(root->data>newnode->data){
+                    root->left=insertnode(newnode,root->left);
                 }
-                else{
-                    root=pushednode(root->right,num);
+                else if(root->data<newnode->data){
+                    root->right=insertnode(newnode,root->right);
+
                 }
 
-                return root;
-                    
+
+
 
             }
 
 
-        }
-        void preorderset(treenode *root){
-            cout<<root->num<<endl;
-            preorderset(root->left);
-            preorderset(root->right);
-        }   
-
-        void preorder(){
-            preorderset(root);
-
-
-
-
-
-        }
-         void inorderset(treenode *root){
-           
-            inorderset(root->left);
-            cout<<root->num<<endl;
-            inorderset(root->right);
-        }   
-
-        void inorder(){
-            inorderset(root);
-
-
-
-
-
-        }
-         void postorderset(treenode *root){
-            
-            postorderset(root->left);
-            postorderset(root->right);
-            cout<<root->num<<endl;
-        }   
-
-        void postorder(){
-            postorderset(root);
-
-
-
-
 
         }
 
-        void levelset(){
-            queue *qu=new queue();
-            treenode* current=root;
-            qu->enqueue(current);
-            while(!qu->isempty()){
-                treenode deletenode=(qu->dequeue());
-                cout<<deletenode.num<<endl;
-                if(deletenode.left!=nullptr){
-                    qu->enqueue(deletenode.left);
-                }
-           
-               if(deletenode.right!=nullptr){
-                    qu->enqueue(deletenode.left);
-                }
-           
-           
-           
-           
-           
+        
+
+        void insert(int data){
+            node *newnode=new node(data);
+            if(isempty()){
+
+                root=newnode;
             }
-           
-           
-            
+            else{
+
+                root=insertnode(newnode,root);
+                
+            }
 
 
-
-
-
-
-
-
-            
-        }
-
-
-
-
-
-
-        void push(int num){
-
-
-            root=pushednode(root,num);
 
 
 
         }
 
+
+        void preorder(node *root){
+            if(root==nullptr){
+                return;
+            }
+            else{
+                cout<<root->data<<" ";
+                preorder(root->left);
+                preorder(root->right);
+            }
+
+
+        }
+
+
+
+        void inorder(node *root){
+            if(isempty()){
+
+                return;
+            }
+            else{
+                inorder(root->left);
+;
+                cout<<root->data<<" ";
+                 inorder(root->right);
+
+
+            }
+
+        }
+
+        void postorder(node *root){
+
+            if(root==nullptr){
+                return;
+
+            }
+            else{
+                postorder(root->left);
+                postorder(root->right);
+                cout<<root->data<<"";
+            }
+
+
+
+
+        }
 
 
 
@@ -143,14 +123,3 @@ class tree{
 
 
 };
-
-
-
-
-int main(){
-
-
-
-
-
-}
